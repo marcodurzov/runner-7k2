@@ -1,0 +1,53 @@
+name: DropNode Bot
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'      # cada 15 min, 24 h (horarios VIP/Free los decide el código)
+  workflow_dispatch:
+
+# Evita que dos corridas se pisen (GitHub a veces retrasa y junta ejecuciones)
+concurrency:
+  group: dropnode-bot
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Cookies de ML (se conservan entre corridas)
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: ml-cookies-bot-${{ github.run_id }}
+          restore-keys: ml-cookies-bot-
+      - run: pip install -r requirements.txt
+      - name: Instalar navegador (solo se usa si una tienda necesita JavaScript)
+        continue-on-error: true      # si falla, el bot sigue (el render JS es opcional)
+        run: playwright install --with-deps chromium
+      - name: Ejecutar bot
+        run: python main.py
+        env:
+          TELEGRAM_TOKEN:       ${{ secrets.TELEGRAM_TOKEN }}
+          CHANNEL_FREE_ID:      ${{ secrets.CHANNEL_FREE_ID }}
+          CHANNEL_VIP_ID:       ${{ secrets.CHANNEL_VIP_ID }}
+          GROUP_ID:             ${{ secrets.GROUP_ID }}
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:         ${{ secrets.SUPABASE_KEY }}
+          LAUNCHPASS_LINK:      ${{ secrets.LAUNCHPASS_LINK }}
+          ML_AFFILIATE_ID:      ${{ secrets.ML_AFFILIATE_ID }}
+          ML_APP_ID:            ${{ secrets.ML_APP_ID }}
+          ML_SECRET:            ${{ secrets.ML_SECRET }}
+          AMAZON_TAG:           ${{ secrets.AMAZON_TAG }}
+          MAKE_WEBHOOK_URL:     ${{ secrets.MAKE_WEBHOOK_URL }}
+          ADMIN_CHAT_ID:        ${{ secrets.ADMIN_CHAT_ID }}      # opcional (tu ID de Telegram)
+          ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}  # opcional (respuestas con IA en la comunidad)
+          PROXY_URL:            ${{ secrets.PROXY_URL }}          # opcional (anyIP)
+          ENABLE_CUPONES:       "0"
+          RENDER_JS:            "1"
+          TIMEZONE_OFFSET_HOURS: "-6"
