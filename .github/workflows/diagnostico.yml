@@ -1,0 +1,42 @@
+name: DropNode Diagnóstico
+
+on:
+  workflow_dispatch:     # solo manual: Actions -> DropNode Diagnóstico -> Run workflow
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - name: Instalar navegador (para páginas con JavaScript)
+        continue-on-error: true      # si falla, el bot sigue (el render JS es opcional)
+        run: playwright install --with-deps chromium
+      - name: Instalar Scrapling (prueba opcional)
+        continue-on-error: true
+        run: |
+          pip install "scrapling[fetchers]"
+          scrapling install
+      - name: Diagnóstico
+        run: python diagnostico.py
+        env:
+          TELEGRAM_TOKEN:  ${{ secrets.TELEGRAM_TOKEN }}
+          SUPABASE_URL:    ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:    ${{ secrets.SUPABASE_KEY }}
+          ML_APP_ID:       ${{ secrets.ML_APP_ID }}
+          ML_SECRET:       ${{ secrets.ML_SECRET }}
+          ADMIN_CHAT_ID:   ${{ secrets.ADMIN_CHAT_ID }}
+          PROXY_URL:       ${{ secrets.PROXY_URL }}
+      - name: Subir muestras de HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: muestras
+          path: muestras/
+          if-no-files-found: ignore
+          retention-days: 7
