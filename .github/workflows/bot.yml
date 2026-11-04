@@ -15,7 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - name: Descargar el código privado
+        uses: actions/checkout@v4
+        with:
+          repository: marcodurzov/dropnode-mx
+          token: ${{ secrets.CORE_REPO }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -45,6 +49,7 @@ jobs:
           ML_SECRET:            ${{ secrets.ML_SECRET }}
           AMAZON_TAG:           ${{ secrets.AMAZON_TAG }}
           MAKE_WEBHOOK_URL:     ${{ secrets.MAKE_WEBHOOK_URL }}
+          AFILIADOS_JSON:       ${{ secrets.AFILIADOS_JSON }}
           ADMIN_CHAT_ID:        ${{ secrets.ADMIN_CHAT_ID }}      # opcional (tu ID de Telegram)
           ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}  # opcional (respuestas con IA en la comunidad)
           PROXY_URL:            ${{ secrets.PROXY_URL }}          # opcional (anyIP)
