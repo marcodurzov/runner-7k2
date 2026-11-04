@@ -8,7 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
+      - name: Descargar el código privado
+        uses: actions/checkout@v4
+        with:
+          repository: marcodurzov/dropnode-mx
+          token: ${{ secrets.CORE_REPO }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
