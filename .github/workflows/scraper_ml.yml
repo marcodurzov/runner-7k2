@@ -19,8 +19,11 @@ jobs:
     timeout-minutes: 25
 
     steps:
-      - name: Checkout
+      - name: Descargar el código privado
         uses: actions/checkout@v4
+        with:
+          repository: marcodurzov/dropnode-mx
+          token: ${{ secrets.CORE_REPO }}
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -54,6 +57,7 @@ jobs:
           LAUNCHPASS_LINK: ${{ secrets.LAUNCHPASS_LINK }}
           MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
           SCRAPER_API_KEY: ${{ secrets.SCRAPER_API_KEY }}
+          AFILIADOS_JSON:       ${{ secrets.AFILIADOS_JSON }}
           ADMIN_CHAT_ID: ${{ secrets.ADMIN_CHAT_ID }}
           PROXY_URL: ${{ secrets.PROXY_URL }}
         run: python github_scraper_ml.py
