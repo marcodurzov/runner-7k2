@@ -39,7 +39,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests supabase==1.2.0 playwright beautifulsoup4
+          pip install requests supabase==1.2.0 playwright beautifulsoup4 pillow
           playwright install chromium
           playwright install-deps chromium
 
