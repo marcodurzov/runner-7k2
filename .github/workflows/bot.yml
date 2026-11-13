@@ -2,7 +2,7 @@ name: DropNode Bot
 
 on:
   schedule:
-    - cron: '*/15 * * * *'      # cada 15 min, 24 h (horarios VIP/Free los decide el código)
+    - cron: '5,35 * * * *'      # respaldo; el disparo principal es cron-job.org
   workflow_dispatch:
 
 # Evita que dos corridas se pisen (GitHub a veces retrasa y junta ejecuciones)
@@ -51,6 +51,8 @@ jobs:
           MAKE_WEBHOOK_URL:     ${{ secrets.MAKE_WEBHOOK_URL }}
           AFILIADOS_JSON:       ${{ secrets.AFILIADOS_JSON }}
           ADMIN_CHAT_ID:        ${{ secrets.ADMIN_CHAT_ID }}      # opcional (tu ID de Telegram)
+          COMMUNITY_LINK: ${{ secrets.COMMUNITY_LINK }}
+          FREE_LINK: ${{ secrets.FREE_LINK }}
           ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}  # opcional (respuestas con IA en la comunidad)
           PROXY_URL:            ${{ secrets.PROXY_URL }}          # opcional (anyIP)
           ENABLE_CUPONES:       "0"
