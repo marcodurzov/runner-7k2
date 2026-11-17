@@ -10,6 +10,9 @@ concurrency:
   group: dropnode-bot
   cancel-in-progress: false
 
+permissions:
+  contents: read        # el token automático solo puede leer (nada de escribir en el repo)
+
 jobs:
   run:
     runs-on: ubuntu-latest
