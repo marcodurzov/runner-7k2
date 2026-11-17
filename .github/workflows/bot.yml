@@ -55,6 +55,7 @@ jobs:
           AFILIADOS_JSON:       ${{ secrets.AFILIADOS_JSON }}
           ADMIN_CHAT_ID:        ${{ secrets.ADMIN_CHAT_ID }}      # opcional (tu ID de Telegram)
           COMMUNITY_LINK: ${{ secrets.COMMUNITY_LINK }}
+          FUNDADORES_LINK: ${{ secrets.FUNDADORES_LINK }}
           FREE_LINK: ${{ secrets.FREE_LINK }}
           ANTHROPIC_API_KEY:    ${{ secrets.ANTHROPIC_API_KEY }}  # opcional (respuestas con IA en la comunidad)
           PROXY_URL:            ${{ secrets.PROXY_URL }}          # opcional (anyIP)
