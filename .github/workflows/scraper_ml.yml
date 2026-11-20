@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Descargar el código privado
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: marcodurzov/dropnode-mx
           token: ${{ secrets.CORE_REPO }}
