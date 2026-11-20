@@ -48,7 +48,7 @@ jobs:
           PROXY_SIN_TOPE:  "1"
       - name: Subir muestras de HTML
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: muestras
           path: muestras/
